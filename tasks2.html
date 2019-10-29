@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>TASKS 2</title>
+  </head>
+  <body>
+    <div class="container" id="app">
+      <div class="row">
+        <div class="col-sm">
+          <div class="card" style="width: 21rem;">
+            <div class="card-header">
+              To Do Count: {{ todoTasks.length }}
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item" v-for='task in todoTasks' :value="task">{{ task.name }}
+              <mark v-if="task.is_important==1">Important</mark>
+               <div class="text-right">
+                <select v-model="selected" v-on:change="todoMove(task)" style="width: 85px;">
+                  <option disabled selected value="">Move</option>
+                  <option value="doing">Move to Doing</option>
+                  <option value="done">Move to Done</option>
+                </select>   
+               </div> 
+              </li>
+            </ul>
+        </div>
+       </div>
+       <div class="col-sm">
+          <div class="card" style="width: 21rem;">
+            <div class="card-header">
+              Doing Count: {{ doingTasks.length }}
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item" v-for='task in doingTasks' :value="task">{{ task.name }}
+              <mark v-if="task.is_important==1">Important</mark>
+              <div class="text-right">
+                <select v-model="selected" v-on:change="doingMove(task)" style="width: 85px;">
+                  <option disabled selected value="">Move</option>
+                  <option value="todo">Move to To Do</option>
+                  <option value="done">Move to Done</option>
+                </select>   
+               </div>   
+              </li>
+            </ul>
+        </div>
+       </div>
+       <div class="col-sm">
+          <div class="card" style="width: 21rem;">
+            <div class="card-header">
+              Done Count: {{ doneTasks.length }}
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item" v-for='task in doneTasks' :value="task">{{ task.name }}
+              <mark v-if="task.is_important==1">Important</mark>
+              <div class="text-right">
+                <select v-model="selected" v-on:change="doneMove(task)" style="width: 85px;">
+                  <option disabled selected value="">Move</option>
+                  <option value="todo">Move to To Do</option>
+                  <option value="doing">Move to Doing</option>
+                </select>   
+               </div>   
+              </li>
+            </ul>
+        </div>
+       </div>
+     </div>
+    </div>
+    
+
+    <!-- VUEJS SCRIPT -->
+    <script>
+      new Vue({
+        el: '#app',
+        data: {
+          selected: "",
+          tasks: [
+            { 'id': 1, 'name': 'Walk the dog', 'category_id': 1, 'is_important': 1},
+            { 'id': 2, 'name': 'Walk the cat', 'category_id': 1, 'is_important': 0},
+            { 'id': 3, 'name': 'Walk the turle', 'category_id': 3, 'is_important': 0},
+            { 'id': 4, 'name': 'Walk the lion', 'category_id': 3, 'is_important': 0},
+            { 'id': 5, 'name': 'Walk the panda', 'category_id': 2, 'is_important': 1},
+            { 'id': 6, 'name': 'Walk the walker','category_id': 2, 'is_important': 1}
+          ]
+        },
+      computed: {
+        todoTasks: function() {
+          return this.tasks.filter(function(u){
+            return u.category_id==1;
+          })
+        },
+        doingTasks: function() {
+          return this.tasks.filter(function(u){
+            return u.category_id==2;
+          })
+        },
+        doneTasks: function() {
+          return this.tasks.filter(function(u){
+            return u.category_id==3;
+          })
+        }
+      },
+      methods: {
+        todoMove(task) {
+            if (this.selected=="doing") {
+                this.doingTasks.push(task);
+                var index = this.todoTasks.indexOf(task);
+                this.todoTasks.splice(index, 1);
+                return this.selected="";
+            } else if (this.selected=="done") {
+                this.doneTasks.push(task);
+                var index = this.todoTasks.indexOf(task);
+                this.todoTasks.splice(index, 1);
+                return this.selected="";
+            } else {
+              alert("Cant Process");
+            }
+            },
+        doingMove(task) {
+            if (this.selected=="todo") {
+                this.todoTasks.push(task);
+                var index = this.doingTasks.indexOf(task);
+                this.doingTasks.splice(index, 1);
+                return this.selected="";
+            } else if (this.selected=="done") {
+                this.doneTasks.push(task);
+                var index = this.doingTasks.indexOf(task);
+                this.doingTasks.splice(index, 1);
+                return this.selected="";
+            } else {
+              alert("Cant Process");
+            }
+          },
+          doneMove(task) {
+            if (this.selected=="todo") {
+                this.todoTasks.push(task);
+                var index = this.doneTasks.indexOf(task);
+                this.doneTasks.splice(index, 1);
+                return this.selected="";
+            } else if (this.selected=="doing") {
+                this.doingTasks.push(task);
+                var index = this.doneTasks.indexOf(task);
+                this.doneTasks.splice(index, 1);
+                return this.selected="";
+            } else {
+              alert("Cant Process");
+            }
+          }
+      }
+      })
+      
+    </script>
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
