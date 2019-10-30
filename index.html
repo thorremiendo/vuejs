@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Table</title>
+  </head>
+  <body>
+    <table class="table">
+      <thead>
+          <tr>
+              <th> Name </th>
+              <th v-for="(subject, index) in subjects" :key="index"> {{ subject.name }} </th>
+          </tr>
+      </thead>
+      <tbody>
+         <tr v-for='student in students' :value='student'>
+          <th>{{ student.name }}</th>
+          <td v-for='subject in subjects' :value='subject'> {{ getGrades(student.id, subject.id) }} </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <!-- Optional JavaScript -->
+    <script type="text/javascript">
+      new Vue ({
+        el: '.table',
+        data: {
+          students: [
+              { id: 1, name: 'Marvy'},
+              { id: 2, name: 'Eds'},
+              { id: 3, name: 'Joseph'},
+              { id: 4, name: 'Johniel'},
+              { id: 5, name: 'JP'}
+          ],
+          subjects: [
+            { id: 10, name: 'WIS1'},
+            { id: 11, name: 'Capstone1'},
+            { id: 12, name: 'IoT'}
+          ],
+          grades: [
+            { student_id: 1, subject_id: 10, grade: 75},
+            { student_id: 1, subject_id: 11, grade: 76},
+            { student_id: 1, subject_id: 12, grade: 77},
+            { student_id: 2, subject_id: 10, grade: 73},
+            { student_id: 2, subject_id: 11, grade: 75},
+            { student_id: 2, subject_id: 12, grade: 89},
+            { student_id: 3, subject_id: 10, grade: 98},
+            { student_id: 3, subject_id: 11, grade: 87},
+            { student_id: 3, subject_id: 12, grade: 99},
+            { student_id: 4, subject_id: 10, grade: 89},
+            { student_id: 4, subject_id: 11, grade: 77},
+            { student_id: 4, subject_id: 12, grade: 91},
+            { student_id: 5, subject_id: 10, grade: 73},
+            { student_id: 5, subject_id: 11, grade: 99},
+            { student_id: 5, subject_id: 12, grade: 87},
+          ]
+        },
+        methods:{
+          getGrades(student_id, subject_id){
+             var grade = this.grades.find(function(grade){                
+                return grade.student_id == student_id && grade.subject_id == subject_id;
+
+              });
+             return grade.grade;
+            }
+          }
+      })
+
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
